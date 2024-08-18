@@ -73,6 +73,7 @@ class Todo:
     def Create_Data(self):  
                 try:
                     Connection_var=pymysql.connect(host="localhost", user= "root", password= "SQL@2022bibhi")
+                    #Use Your LocalDB Login credentials
                     MyCursor=Connection_var.cursor()
                     MyCursor.execute("CREATE DATABASE IF NOT EXISTS todo_list")
                     MyCursor.execute("use todo_list")
@@ -87,6 +88,7 @@ class Todo:
         else:
             try:
                 Connection_var=pymysql.connect(host="localhost", user= "root", password= "SQL@2022bibhi", database="todo_list")
+                #Use Your LocalDB Login credentials
                 MyCursor=Connection_var.cursor()
                 MyCursor.execute("use todo_list")
                 MyCursor.execute("insert into data (Task, Priority, Target_Date, Status) values(%s, %s, %s, %s)", (self.Task_entry.get(), self.Priority.get(), self.Target_Date.get(), "Pending"))
@@ -102,6 +104,7 @@ class Todo:
     def fetch_data(self):
         try:
             Connection_var = pymysql.connect(host="localhost", user="root", password="SQL@2022bibhi", database="todo_list")
+            #Use Your LocalDB Login credentials
             cursor = Connection_var.cursor()
             cursor.execute("SELECT id, Task, Priority, Target_Date, Status FROM data")
             rows = cursor.fetchall()
@@ -180,6 +183,7 @@ class Todo:
         try:
             if new_status == "Delete":
                 connection = pymysql.connect(host="localhost", user="root", password="SQL@2022bibhi", database="todo_list")
+                #Use Your LocalDB Login credentials
                 cursor = connection.cursor()
                 cursor.execute("DELETE FROM data WHERE id = %s", (task_id,))
                 connection.commit()
@@ -187,6 +191,7 @@ class Todo:
                 self.populate_listbox()
             else:
                 connection = pymysql.connect(host="localhost", user="root", password="SQL@2022bibhi", database="todo_list")
+                #Use Your LocalDB Login credentials
                 cursor = connection.cursor()
                 cursor.execute("UPDATE data SET Status = %s WHERE id = %s", (new_status, task_id))
                 connection.commit()
