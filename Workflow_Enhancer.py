@@ -8,6 +8,8 @@ import datetime
 import psycopg2
 from email_validator import validate_email, EmailNotValidError 
 import math
+import os
+from dotenv import load_dotenv
 
 
 def Heading(page, value): #A Heading function for the pages headings
@@ -102,14 +104,21 @@ def PopUp(page, title, message): # A Function to create custom pop up message
         page.dialog.open = True
         page.update()
 
-def Database_Connection(): # A Function to declare Databse Connection Parameters
+import os
+from dotenv import load_dotenv
+import psycopg2
+
+def Database_Connection():
+    load_dotenv()  # load environment variables from .env file
+
     return psycopg2.connect(
-        dbname="Yourdb", 
-        user="Yourdb_owner", 
-        password="Your Password",
-        host="your Host", 
-        port="5432"
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT")
     )
+
 #I have used Neondb
 
 def Create_User_Table(): # A Function to create the Users Details Table
@@ -159,7 +168,7 @@ class Workflow_Enhancer_APP:
         self.page.horizontal_alignment = ft.MainAxisAlignment.CENTER
         self.page.window_height = 712
         self.page.window_width = 400
-        self.page.window_resizable = True #allows to resize the app as per user prference
+        self.page.window.resizable = True #allows to resize the app as per user prference
         self.page.padding = 0 #to ensure the background container fits the total avalable space for the app
         self.page.theme_mode = "dark"
 
@@ -380,7 +389,7 @@ class Authentication_Page: # A class which includes all the USer Registration, A
         page.window.height = 667
         page.window.width = 375
         self.Login_Page(page)
-        self.page.window_resizable = True
+        self.page.window.resizable = True
         self.page.padding=0
         self.page.theme_mode = "dark"
 
